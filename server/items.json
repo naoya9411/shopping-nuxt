@@ -1,0 +1,95 @@
+[
+  {
+    "id": 1,
+    "name": "スイカ",
+    "description": "ビニールハウスで育てられた甘くて瑞々しいスイカ。",
+    "price": 1000,
+    "producer": "木村農園",
+    "imageUrl1": "items/water-meron.png",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 2,
+    "name": "レモン",
+    "description": "酸っぱいレモン。",
+    "price": 500,
+    "producer": "伊藤農園",
+    "imageUrl1": "items/remon.png",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 3,
+    "name": "イチゴ",
+    "description": "無農薬で育てられた身体に優しいイチゴ。",
+    "price": 800,
+    "producer": "果実の郷",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 4,
+    "name": "ブドウ",
+    "price": 2500,
+    "producer": "植木農園",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 5,
+    "name": "モモ",
+    "price": 4000,
+    "producer": "上田園",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 6,
+    "name": "ミカン",
+    "price": 1200,
+    "producer": "木村農園",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 7,
+    "name": "サクランボ",
+    "price": 600,
+    "producer": "木村農園",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 8,
+    "name": "メロン",
+    "price": 4500,
+    "producer": "果実の郷",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 9,
+    "name": "パイナップル",
+    "price": 3800,
+    "producer": "果実の郷",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  },
+  {
+    "id": 10,
+    "name": "キウイ",
+    "price": 2500,
+    "producer": "古木果樹園",
+    "imageUrl1": "",
+    "imageUrl2": "",
+    "imageUrl3": ""
+  }
+]
