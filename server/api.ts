@@ -6,6 +6,7 @@ export type Item = {
   name: string
   description?: string
   price: number
+  shipping: number
   producer: string
   imageUrl1?: string
   imageUrl2?: string
@@ -84,19 +85,38 @@ export function createApi() {
   })
 
   router.get('/address', (req, res) => {
-    console.log('oooooooooooooooooooooooooo')
     res.send(req.session.personalInfo)
+  })
+
+  router.get('/orderinfo', (req, res) => {
+    let paymentName = ''
+    if (req.session.personalInfo.payment === 'onDelivery') {
+      paymentName = '代金引換'
+    } else if (req.session.personalInfo.payment === 'conveni') {
+      paymentName = 'コンビニ払い'
+    }
+
+    let itemAmount = 0
+    let shippingAmount = 0
+    req.session.cartList.forEach((val) => {
+      itemAmount += val.item.price
+      shippingAmount += val.item.shipping
+    })
+    const ret = {
+      cartList: req.session.cartList,
+      personalInfo: { ...req.session.personalInfo, payment: paymentName },
+      itemAmount,
+      shippingAmount,
+    }
+    res.send(ret)
+  })
+
+  router.get('/payment', (req, res) => {
+    req.session.destroy((err) => {
+      console.log(err)
+    })
+    res.send()
   })
 
   return router
 }
-
-// 商品詳細取得
-
-// カート情報取得
-
-// 注文者情報取得
-
-// カートに追加
-
-// 注文者情報の登録

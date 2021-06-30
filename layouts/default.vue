@@ -65,7 +65,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Fruit Shop',
+      title: 'Fruits Shop',
     }
   },
 }

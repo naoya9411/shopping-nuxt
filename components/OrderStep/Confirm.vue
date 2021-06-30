@@ -12,7 +12,7 @@
               </th>
               <th class="text-right black--text">
                 <span class="text-h6 font-weight-black">{{
-                  calcTotalAmount.toLocaleString()
+                  calcTotalAmount
                 }}</span
                 >円
               </th>
@@ -23,7 +23,7 @@
               <td>商品合計</td>
               <td class="text-right">
                 <span class="font-weight-black">{{
-                  productAmount.toLocaleString()
+                  itemAmount.toLocaleString()
                 }}</span
                 >円
               </td>
@@ -32,7 +32,7 @@
               <td>送料</td>
               <td class="text-right">
                 <span class="font-weight-black">{{
-                  shipping.toLocaleString()
+                  shippingAmount.toLocaleString()
                 }}</span
                 >円
               </td>
@@ -76,11 +76,42 @@
     </v-card>
     <v-card class="my-4 pa-2">
       <div class="d-flex justify-space-between">
-        <div class="mb-2 text-h6 font-weight-black">ご注文者情報</div>
+        <div class="mb-2 text-h6 font-weight-black">お支払い方法</div>
         <v-btn to="/order-step/address" outlined class="blue--text">変更</v-btn>
       </div>
       <v-divider class="mb-2"></v-divider>
-      <p>{{}}</p>
+      <p>{{ checkInfo.payment }}</p>
+    </v-card>
+    <v-card class="pa-4">
+      <div v-for="cartItem in cartList" :key="cartItem.item.id">
+        <div class="d-flex">
+          <div class="mr-6">
+            <template v-if="cartItem.item.imageUrl1">
+              <img
+                :src="getImageUrl(cartItem.item.imageUrl1)"
+                height="150"
+                alt=""
+              />
+            </template>
+            <template v-else>
+              <img src="@/assets/items/sample.png" height="150" alt="" />
+            </template>
+          </div>
+          <div>
+            <p class="text-h5">{{ cartItem.item.name }}</p>
+            <p>
+              <span class="text-h6">{{
+                cartItem.item.price.toLocaleString()
+              }}</span
+              >円
+            </p>
+            <p>{{ cartItem.item.producer }}</p>
+            <p>個数：{{ cartItem.number }}</p>
+          </div>
+        </div>
+
+        <v-divider class="my-2"></v-divider>
+      </div>
     </v-card>
     <v-btn block color="primary" @click="onClick">次へ</v-btn>
   </div>
@@ -105,13 +136,17 @@ type CheckInfo = {
     address: string
     phoneNumber: string
   }
+  payment: string
 }
 
 @Component({})
 export default class extends Vue {
-  productAmount = 1500
-  shipping = 500
-  calcTotalAmount = this.productAmount + this.shipping
+  itemAmount = 0
+  shippingAmount = 0
+
+  get calcTotalAmount() {
+    return (this.itemAmount + this.shippingAmount).toLocaleString()
+  }
 
   checkInfo: CheckInfo = {
     sameAddress: true,
@@ -128,15 +163,18 @@ export default class extends Vue {
       address: '',
       phoneNumber: '',
     },
+    payment: '',
   }
 
+  cartList = []
+
   async mounted() {
-    console.log('aaaaaaaaaaaaaaaaa')
     try {
-      const res = await axios.get('/api/address')
-      console.log('fjweofij')
-      console.log(res)
-      const { sameAddress, orderer, delivery } = res.data
+      const res = await axios.get('/api/orderinfo')
+
+      const { cartList, personalInfo, itemAmount, shippingAmount } = res.data
+      console.log(res.data)
+      const { sameAddress, orderer, delivery, payment } = personalInfo
       if (sameAddress) {
         this.checkInfo.sameAddress = sameAddress
         this.checkInfo.delivery.fullName = orderer.lastName + orderer.firstName
@@ -158,12 +196,29 @@ export default class extends Vue {
         this.checkInfo.delivery.address = delivery.prefecture + delivery.address
         this.checkInfo.delivery.phoneNumber = delivery.phoneNumber
       }
+      this.checkInfo.payment = payment
+      this.cartList = cartList
+      this.itemAmount = itemAmount
+      this.shippingAmount = shippingAmount
     } catch (e) {
       console.log(e)
       this.$router.push('/error')
     }
   }
 
-  onClick() {}
+  getImageUrl(url: string) {
+    return require('@/assets/' + url)
+  }
+
+  onClick() {
+    axios
+      .get('/api/payment')
+      .then(() => {
+        this.$router.push('/order-step/finish')
+      })
+      .catch(() => {
+        this.$router.push('/error')
+      })
+  }
 }
 </script>
